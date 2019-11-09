@@ -79,32 +79,14 @@ namespace SpecFlowFramework.Tests
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("The finance calculator shows the correct STL details")]
-        [NUnit.Framework.TestCaseAttribute("200", "£200", "MONTHLY", "3", "Monday", null)]
-        [NUnit.Framework.TestCaseAttribute("210", "£210", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("220", "£220", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("230", "£230", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("240", "£240", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("250", "£250", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("260", "£260", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("270", "£270", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("280", "£280", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("290", "£290", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("300", "£300", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("310", "£310", "MONTHLY", "4", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("500", "£500", "MONTHLY", "2", "Sunday", null)]
-        [NUnit.Framework.TestCaseAttribute("490", "£490", "MONTHLY", "5", "Wednesday", null)]
-        [NUnit.Framework.TestCaseAttribute("510", "£510", "MONTHLY", "6", "Thursday", null)]
-        [NUnit.Framework.TestCaseAttribute("520", "£520", "MONTHLY", "7", "Friday", null)]
-        [NUnit.Framework.TestCaseAttribute("550", "£550", "MONTHLY", "8", "Saturday", null)]
-        [NUnit.Framework.TestCaseAttribute("560", "£560", "MONTHLY", "9", "Sunday", null)]
-        [NUnit.Framework.TestCaseAttribute("570", "£570", "MONTHLY", "10", "Sunday", null)]
-        [NUnit.Framework.TestCaseAttribute("600", "£600", "MONTHLY", "11", "Monday", null)]
-        [NUnit.Framework.TestCaseAttribute("700", "£700", "MONTHLY", "12", "Tuesday", null)]
-        [NUnit.Framework.TestCaseAttribute("760", "£760", "MONTHLY", "2", "Wednesday", null)]
-        [NUnit.Framework.TestCaseAttribute("800", "£800", "MONTHLY", "3", "Thursday", null)]
-        [NUnit.Framework.TestCaseAttribute("820", "£820", "MONTHLY", "4", "Friday", null)]
-        [NUnit.Framework.TestCaseAttribute("1000", "£1000", "MONTHLY", "5", "Saturday", null)]
-        public virtual void TheFinanceCalculatorShowsTheCorrectSTLDetails(string loanAmount, string loanText, string repaymentType, string instalments, string paymentDay, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("200", "£200", "MONTHLY", "3", "Saturday", "Friday", null)]
+        [NUnit.Framework.TestCaseAttribute("310", "£310", "MONTHLY", "4", "Sunday", "Friday", null)]
+        [NUnit.Framework.TestCaseAttribute("420", "£420", "MONTHLY", "5", "Monday", "Monday", null)]
+        [NUnit.Framework.TestCaseAttribute("530", "£530", "MONTHLY", "6", "Tuesday", "Tuesday", null)]
+        [NUnit.Framework.TestCaseAttribute("1000", "£1000", "MONTHLY", "7", "Wednesday", "Wednesday", null)]
+        [NUnit.Framework.TestCaseAttribute("670", "£670", "MONTHLY", "8", "Thursday", "Thursday", null)]
+        [NUnit.Framework.TestCaseAttribute("890", "£890", "MONTHLY", "9", "Friday", "Friday", null)]
+        public virtual void TheFinanceCalculatorShowsTheCorrectSTLDetails(string loanAmount, string loanText, string repaymentType, string instalments, string paymentDay, string expectedPaymentDay, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The finance calculator shows the correct STL details", null, exampleTags);
 #line 7
@@ -119,18 +101,22 @@ this.FeatureBackground();
 #line 10
  testRunner.Then(string.Format("I expect the value of the loan to show as {0}", loanText), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.Given(string.Format("I select a repayment type of {0}", repaymentType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.And("I expect the minimum and maximum loan boundaries to be correct", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.And(string.Format("I select an Instalment value of {0}", instalments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given(string.Format("I select a repayment type of {0}", repaymentType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
- testRunner.Then(string.Format("I expect the value of the instalment to show as {0}", instalments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And(string.Format("I select an Instalment value of {0}", instalments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
- testRunner.Given("I expand the loan schedule options", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Then(string.Format("I expect the value of the instalment to show as {0}", instalments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15
- testRunner.And(string.Format("I choose a {0}", paymentDay), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I expand the loan schedule options", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 16
- testRunner.Then("I expect to see a day other than a weekend", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And(string.Format("I choose a {0}", paymentDay), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17
+ testRunner.Then(string.Format("I expect the day displayed to be the {0}", expectedPaymentDay), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.Then("I expect to see a day other than a weekend", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
  testRunner.And(string.Format("I expect the loan summary to be correct for a loan of {0} and {1} instalments", loanAmount, instalments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

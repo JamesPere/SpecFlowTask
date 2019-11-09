@@ -42,7 +42,7 @@ namespace SpecFlowFramework.Pages
             var loanAmount = _loanRepaymentSummary.GetLoanAmount();
             var interestAmount = _loanRepaymentSummary.GetInterestAmount();
             var totalAmount = _loanRepaymentSummary.GetTotalAmount();
-            var perMonthAmount = _loanRepaymentSummary.GetPerMonthAmount();
+            //var perMonthAmount = _loanRepaymentSummary.GetPerMonthAmount();
 
             var requestedLoanAmountAsDecimal = Convert.ToDecimal(requestedloanAmount);
             var interestAmountAsDecimal = Convert.ToDecimal(interestAmount.Replace("£", "").Trim());
@@ -63,6 +63,13 @@ namespace SpecFlowFramework.Pages
             _repaymentDayControls.VerifyPaymentDate(day);
         }
 
+
+        public void VerifyExpectedDay(string day)
+        {
+            _browser.WaitFor(() => _browser.Get(LoanCalculator).HasClassWithValue("disable-pointer-events") == false);
+            Assert.That(_instalmentsControls.GetScheduleText().ToUpper().Contains(day.ToUpper()), $"Expected: {day.ToUpper()}, Actual: {_instalmentsControls.GetScheduleText().ToUpper()}");
+        }
+
         public void VerifyScheduleNotOnWeekend()
         {
             Assert.That(_instalmentsControls.GetScheduleText().ToUpper(), Does.Not.Contain("SUNDAY"));
@@ -79,6 +86,12 @@ namespace SpecFlowFramework.Pages
             Assert.That(_instalmentsControls.GetInstalmentAmount(), Is.EqualTo(instalmentValue));
         }
 
+
+        public void VerifyMinimumAndMaxThresholds()
+        {
+            _loanAmountControls.VerifyMaximumAmount();
+            _loanAmountControls.VerifyMinimumAmount();
+        }
 
         public void SelectLoanValue(string loanValue)
         {

@@ -8,11 +8,11 @@ using TechTalk.SpecFlow;
 namespace SpecFlowFramework.Steps
 {
     [Binding]
-    public class FinanceCalculatorSteps
+    public class ShortTermLoanSteps
     {
         private IObjectContainer _objectContainer;
 
-        public FinanceCalculatorSteps(IObjectContainer objectContainer)
+        public ShortTermLoanSteps(IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
         }
@@ -78,6 +78,20 @@ namespace SpecFlowFramework.Steps
         {
             _objectContainer.Resolve<ShortTermLoan>().VerifyLoanRepaymentSummary(loanAmount, instalments);
         }
+
+        [Then(@"I expect the minimum and maximum loan boundaries to be correct")]
+        public void ThenIExpectTheMinimumAndMaximumLoanBoundariesToBeCorrect()
+        {
+            _objectContainer.Resolve<ShortTermLoan>().VerifyMinimumAndMaxThresholds();
+        }
+
+        [Then(@"I expect the day displayed to be the (.*)")]
+        public void ThenIExpectTheDayDisplayedToBeTheFriday(string expectedDay)
+        {
+            _objectContainer.Resolve<ShortTermLoan>().VerifyExpectedDay(expectedDay);
+        }
+
+
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using SpecFlowFramework.Support.Extensions;
 using SpecFlowFramework.Support.Models;
@@ -15,10 +16,28 @@ namespace SpecFlowFramework.Controls
 
         private Browser _browser;
 
+        private int minimumLoanAmount = 200;
+        private int maximumLoanAmount = 1000;
+
         public LoanAmountControls(Browser browser)
         {
             _browser = browser;
         }
+
+        public void VerifyMinimumAmount()
+        {
+            var lowerValue = GetLowerFinanceRange();
+            Assert.That(Convert.ToInt32(_browser.Get(LoanSlider).Attribute("min")), Is.EqualTo(minimumLoanAmount));
+            Assert.That(lowerValue, Is.EqualTo(minimumLoanAmount));
+        }
+
+        public void VerifyMaximumAmount()
+        {
+            var upperValue = GetUpperFinanceRange();
+            Assert.That(Convert.ToInt32(_browser.Get(LoanSlider).Attribute("max")), Is.EqualTo(maximumLoanAmount));
+            Assert.That(upperValue, Is.EqualTo(maximumLoanAmount));
+        }
+
 
         public void SelectLoanValue(string loanValue)
         {
@@ -82,7 +101,7 @@ namespace SpecFlowFramework.Controls
 
             var sliderWidth = _browser.Get(LoanSlider).Size().Width;
 
-            if (loanFigure == upperValue) return sliderWidth - startingPointOffset;
+            if (loanFigure == upperValue) return sliderWidth - (startingPointOffset - loanIncrements);
 
             var numberOfIncrements = (upperValue - lowerValue) / loanIncrements; //the number of choices
             int calculatedWidth = (sliderWidth + startingPointOffset) / numberOfIncrements; //the width of each choice
