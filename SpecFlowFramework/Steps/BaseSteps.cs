@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using BoDi;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SpecFlowFramework.Pages;
 using SpecFlowFramework.Setup;
 using SpecFlowFramework.Support;
@@ -43,7 +47,12 @@ namespace SpecFlowFramework.Steps
         [BeforeScenario()]
         public void BeforeScenario()
         {
-            Console.WriteLine("Starting Scenario");
+            var dateTime = DateTime.Now;
+            Console.WriteLine("****************************");
+            Console.WriteLine($"Starting Scenario at {dateTime:dd/MM/yyyy HH:mm:ss}");
+            Console.WriteLine("****************************");
+            _objectContainer.RegisterInstanceAs<Stopwatch>(new Stopwatch());
+            _objectContainer.Resolve<Stopwatch>().Start();
         }
 
 
@@ -55,10 +64,17 @@ namespace SpecFlowFramework.Steps
             {
                 var filePath = GenerateScreenshotPath();
                 _objectContainer.Resolve<Browser>().CreateScreenshot(filePath);
-                Console.Write($"Screenshot generated: {filePath}");
+                Console.Write($"INFO - Screenshot generated: {filePath}");
             }
 
-            Console.WriteLine($"Scenario Finished");
+            var dateTime = DateTime.Now;
+            Console.WriteLine("****************************");
+            Console.WriteLine($"Scenario Finished at {dateTime:dd/MM/yyyy HH:mm:ss}");
+
+            var elapsedTime = _objectContainer.Resolve<Stopwatch>().Elapsed;
+            Console.WriteLine($"Duration: {elapsedTime.Minutes} minutes and {elapsedTime.Seconds} seconds");
+            Console.WriteLine("****************************");
+            _objectContainer.Resolve<Stopwatch>().Stop();
             _objectContainer.Resolve<Browser>().Quit();
             _objectContainer.Dispose();
             

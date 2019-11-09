@@ -21,12 +21,12 @@ namespace SpecFlowFramework.Controls
 
         private readonly Browser _browser;
 
-        private readonly RepaymentCalendar _repaymentCalendar;
+        private readonly RepaymentCalendarControls _repaymentCalendar;
 
         public InstalmentsControls(Browser browser)
         {
             _browser = browser;
-            _repaymentCalendar = new RepaymentCalendar(_browser);
+            _repaymentCalendar = new RepaymentCalendarControls(_browser);
         }
 
         public void SelectRepaymentType(string repaymentType)
@@ -97,11 +97,6 @@ namespace SpecFlowFramework.Controls
                 var numberOfIncrementsToMake = (installmentFigure - lowerValue) / installmentIncrements;
 
                 var total = (calculatedWidth * numberOfIncrementsToMake);
-
-                Console.WriteLine($"total: {total}");
-                Console.WriteLine($"calculatedWidth: {calculatedWidth}");
-                Console.WriteLine($"numberOfIncrementsToMake: {numberOfIncrementsToMake}");
-
 
                 return total;
             }

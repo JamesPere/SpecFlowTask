@@ -24,9 +24,44 @@ namespace SpecFlowFramework.Controls
         {
             _browser.WaitForEnabled(LoanSlider);
             
-            var offset = GetDesiredLoanValueSliderOffset(loanValue);
+            var offset = Convert.ToInt32(GetApproximateLoanValueSliderOffset(loanValue));
             _browser.MoveToAndClick(LoanSlider, offset);
+            AdjustSliderPosition(loanValue, offset);
+        }
 
+        private void AdjustSliderPosition(string loanValue, int offset)
+        {
+            var loanAmount = Convert.ToInt32(GetLoanAmount().Replace("£", ""));
+            var loanValueAmount = Convert.ToInt32(loanValue);
+
+            if (loanAmount == loanValueAmount) return;
+            int maxNumberOfAdjustments = 8;
+            int numberOfPixelsToChangeBy = 3;
+            int currentNumberOfAdjustments = 0;
+            var newOffset = offset;
+
+            if (loanAmount > loanValueAmount)
+            {
+                while (loanAmount != loanValueAmount && currentNumberOfAdjustments < maxNumberOfAdjustments)
+                {
+                    newOffset = newOffset - numberOfPixelsToChangeBy;
+                    _browser.MoveToAndClick(LoanSlider, newOffset);
+                    loanAmount = Convert.ToInt32(GetLoanAmount().Replace("£", ""));
+                    loanValueAmount = Convert.ToInt32(loanValue);
+                    currentNumberOfAdjustments++;
+                }
+            }
+            else
+            {
+                while (loanAmount != loanValueAmount && currentNumberOfAdjustments < maxNumberOfAdjustments)
+                {
+                    newOffset = newOffset + numberOfPixelsToChangeBy;
+                    _browser.MoveToAndClick(LoanSlider, newOffset);
+                    loanAmount = Convert.ToInt32(GetLoanAmount().Replace("£", ""));
+                    loanValueAmount = Convert.ToInt32(loanValue);
+                    currentNumberOfAdjustments++;
+                }
+            }
         }
 
         public string GetLoanAmount()
@@ -34,7 +69,7 @@ namespace SpecFlowFramework.Controls
             return _browser.Get(LoanHeaderAmount).Text();
         }
 
-        private int GetDesiredLoanValueSliderOffset(string loanValue)
+        private decimal GetApproximateLoanValueSliderOffset(string loanValue)
         {
             var loanFigure = Convert.ToInt32(loanValue);
             var lowerValue = GetLowerFinanceRange();
@@ -43,60 +78,22 @@ namespace SpecFlowFramework.Controls
             var sliderClickOffset = 0;
             var loanIncrements = Convert.ToInt32(_browser.Get(LoanSlider).Attribute("step"));
 
-            if (loanFigure < lowerValue)
-            {
-                throw new Exception("Loan Value cannot be less than range");
-            }
+            if (loanFigure <= lowerValue) return sliderClickOffset;
 
-            if (loanFigure == lowerValue)
-            {
-                return 0;
-            }
+            var sliderWidth = _browser.Get(LoanSlider).Size().Width;
 
-            if (loanFigure > lowerValue)
-            {
+            if (loanFigure == upperValue) return sliderWidth - startingPointOffset;
 
-                if (loanFigure <= (upperValue / 2))
-                {
-                    var sliderWidth = _browser.Get(LoanSlider).Size().Width;
-                    var numberOfIncrements = (upperValue - lowerValue) / loanIncrements; //the number of choices
-                    var calculatedWidth = (sliderWidth + startingPointOffset) / numberOfIncrements; //the width of each choice
+            var numberOfIncrements = (upperValue - lowerValue) / loanIncrements; //the number of choices
+            int calculatedWidth = (sliderWidth + startingPointOffset) / numberOfIncrements; //the width of each choice
 
-                    var numberOfIncrementsToMake = (loanFigure - lowerValue) / loanIncrements;
+            var numberOfIncrementsToMake = (loanFigure - lowerValue) / loanIncrements;
 
-                    var total = numberOfIncrementsToMake > 1 ? ((calculatedWidth * numberOfIncrementsToMake) + startingPointOffset) - 10
-                        : startingPointOffset;
+            decimal total = numberOfIncrementsToMake > 1 ? ((calculatedWidth * numberOfIncrementsToMake) + startingPointOffset)
+                : startingPointOffset;
 
-                    Console.WriteLine($"total: {total}");
-                    Console.WriteLine($"calculatedWidth: {calculatedWidth}");
-                    Console.WriteLine($"numberOfIncrementsToMake: {numberOfIncrementsToMake}");
-                    Console.WriteLine($"startingPointOffset: {startingPointOffset}");
+            return total;
 
-                    return total;
-                }
-                else
-                {
-                    var sliderWidth = _browser.Get(LoanSlider).Size().Width;
-                    var numberOfIncrements = (upperValue - lowerValue) / loanIncrements; //the number of choices
-                    var calculatedWidth = (sliderWidth + startingPointOffset) / numberOfIncrements; //the width of each choice
-
-                    var numberOfIncrementsToMake = (loanFigure - lowerValue) / loanIncrements;
-
-                    var total = numberOfIncrementsToMake > 1 ? ((calculatedWidth * numberOfIncrementsToMake) + startingPointOffset) - 10
-                        : startingPointOffset;
-
-                    total = total - 1;
-
-                    Console.WriteLine($"total: {total}");
-                    Console.WriteLine($"calculatedWidth: {calculatedWidth}");
-                    Console.WriteLine($"numberOfIncrementsToMake: {numberOfIncrementsToMake}");
-                    Console.WriteLine($"startingPointOffset: {startingPointOffset}");
-
-                    return total;
-                }
-            }
-
-            return sliderClickOffset;
         }
 
         private int GetLowerFinanceRange()

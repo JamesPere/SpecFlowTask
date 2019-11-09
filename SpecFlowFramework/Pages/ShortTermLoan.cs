@@ -24,13 +24,43 @@ namespace SpecFlowFramework.Pages
         
         private readonly LoanAmountControls _loanAmountControls;
         private readonly InstalmentsControls _instalmentsControls;
-        
+        private RepaymentDayControls _repaymentDayControls;
+        private LoanRepaymentSummary _loanRepaymentSummary;
+
 
         public ShortTermLoan(Browser browser)
         {
             _browser = browser;
             _loanAmountControls = new LoanAmountControls(_browser);
             _instalmentsControls = new InstalmentsControls(_browser);
+            _repaymentDayControls = new RepaymentDayControls(_browser);
+            _loanRepaymentSummary = new LoanRepaymentSummary(_browser);
+        }
+
+        public void VerifyLoanRepaymentSummary(int requestedloanAmount, int requestedInstalments)
+        {
+            var loanAmount = _loanRepaymentSummary.GetLoanAmount();
+            var interestAmount = _loanRepaymentSummary.GetInterestAmount();
+            var totalAmount = _loanRepaymentSummary.GetTotalAmount();
+            var perMonthAmount = _loanRepaymentSummary.GetPerMonthAmount();
+
+            var requestedLoanAmountAsDecimal = Convert.ToDecimal(requestedloanAmount);
+            var interestAmountAsDecimal = Convert.ToDecimal(interestAmount.Replace("£", "").Trim());
+            var totalAmountAsDecimal = requestedLoanAmountAsDecimal + interestAmountAsDecimal;
+
+            Assert.That(loanAmount, Is.EqualTo($"£{Convert.ToDecimal(requestedloanAmount):0.00}"));
+            Assert.That(totalAmount, Is.EqualTo($"£{totalAmountAsDecimal}"));
+
+            //Commenting out as the per month calc is a bit wacky
+            //var totalRounded = Math.Round(totalAmountAsDecimal, 2, MidpointRounding.AwayFromZero);
+            //var repayments = Decimal.Round(Convert.ToDecimal(totalRounded / requestedInstalments), 2);
+
+            //Assert.That(perMonthAmount, Is.EqualTo($"£{repayments:0.00}"));
+        }
+
+        public void VerifyPaymentDate(string day)
+        {
+            _repaymentDayControls.VerifyPaymentDate(day);
         }
 
         public void VerifyScheduleNotOnWeekend()
@@ -74,7 +104,6 @@ namespace SpecFlowFramework.Pages
         public void SelectCalendarDay(string day)
         {
             _instalmentsControls.SelectCalendarDay(day);
-
         }
 
         

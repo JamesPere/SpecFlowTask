@@ -67,6 +67,18 @@ namespace SpecFlowFramework.Steps
             _objectContainer.Resolve<ShortTermLoan>().VerifyScheduleNotOnWeekend();
         }
 
+        [Then(@"I expect to see the correct date for (.*)")]
+        public void ThenIExpectToSeeTheCorrectDate(string paymentDay)
+        {
+            _objectContainer.Resolve<ShortTermLoan>().VerifyPaymentDate(paymentDay);
+        }
+
+        [Then(@"I expect the loan summary to be correct for a loan of (.*) and (.*) instalments")]
+        public void ThenIExpectTheLoanSummaryToBeCorrectForAnd(int loanAmount, int instalments)
+        {
+            _objectContainer.Resolve<ShortTermLoan>().VerifyLoanRepaymentSummary(loanAmount, instalments);
+        }
+
 
     }
 }

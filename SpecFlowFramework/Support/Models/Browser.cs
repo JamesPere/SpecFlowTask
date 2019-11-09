@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Diagnostics;
+using OpenQA.Selenium;
 
 namespace SpecFlowFramework.Support.Models
 {
@@ -7,5 +8,6 @@ namespace SpecFlowFramework.Support.Models
         public IWebDriver Driver { get; set; }
         public string Name { get; set; }
         public string Viewport { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using OpenQA.Selenium;
 using Polly;
 using SpecFlowFramework.Support.Models;
@@ -15,14 +16,55 @@ namespace SpecFlowFramework.Support.Extensions
 
         public static void Click(this BrowserElement element)
         {
-            var policy = Policy.Handle<ElementClickInterceptedException>().WaitAndRetry(3, x => TimeSpan.FromSeconds(2));
+            var policy = Policy.Handle<ElementClickInterceptedException>().WaitAndRetry(5, x => TimeSpan.FromSeconds(1));
             policy.Execute(() =>  element.Element.Click());
 
+        }
+
+        public static BrowserElement Get(this BrowserElement element, By selector)
+        {
+            try
+            {
+                var childElement = element.Element.FindElement(selector);
+                return new BrowserElement()
+                {
+                    Element = childElement,
+                    Selector = selector
+                };
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
+        public static BrowserElement GetChildWithText(this BrowserElement element, string text)
+        {
+            try
+            {
+                var bySelector = By.XPath($"//*[text()='{text}']");
+                return element.Element.FindElements(bySelector).Select(el => new BrowserElement()
+                {
+                    Element = el,
+                    Selector = bySelector
+                }).First();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public static string Text(this BrowserElement element)
         {
             return element.Element.Text;
+        }
+
+        public static Point Location(this BrowserElement element)
+        {
+            return element.Element.Location;
         }
 
         public static string Value(this BrowserElement element)

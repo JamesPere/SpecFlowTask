@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using SpecFlowFramework.Support;
 using SpecFlowFramework.Support.Models;
 
 namespace SpecFlowFramework.Setup
@@ -17,10 +13,13 @@ namespace SpecFlowFramework.Setup
         {
             switch (browser)
             {
-                case "firefox":
+                case "Firefox":
                     return GetFirefoxBrowser();
-                case "ie":
+                case "IE":
                     return GetIeBrowser();
+                case "Edge":
+                    return GetEdgeBrowser();
+                case "Chrome":
                 default:
                     return GetChromeBrowser(); 
             }
@@ -51,6 +50,16 @@ namespace SpecFlowFramework.Setup
             {
                 Driver = new InternetExplorerDriver(),
                 Name = "IE",
+                Viewport = "Desktop",
+            };
+        }
+
+        public Browser GetEdgeBrowser()
+        {
+            return new Browser()
+            {
+                Driver = new EdgeDriver(),
+                Name = "Edge",
                 Viewport = "Desktop",
             };
         }

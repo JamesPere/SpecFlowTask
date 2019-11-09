@@ -11,7 +11,7 @@ using SpecFlowFramework.Support.Utils;
 
 namespace SpecFlowFramework.Controls
 {
-    public class RepaymentCalendar
+    public class RepaymentCalendarControls
     {
 
         public By Calendar => By.CssSelector(".loan-schedule__tab__panel__content.active");
@@ -19,20 +19,17 @@ namespace SpecFlowFramework.Controls
 
         private Browser _browser;
 
-        public RepaymentCalendar(Browser browser)
+        public RepaymentCalendarControls(Browser browser)
         {
             _browser = browser;
         }
 
         public void SelectCalendarDay(string day)
         {
-            CalendarEnum calendarDay;
-            Enum.TryParse(day, out calendarDay);
+            Enum.TryParse(day, out CalendarEnum calendarDay);
             var currentDate = DateTime.Now.AddMonths(1);
             var desiredDate =
                 CalendarUtil.GetNextDay(calendarDay, new DateTime(currentDate.Year, currentDate.Month, 1));
-
-            Console.WriteLine($"Desired Date: {desiredDate:dd/MM/yyyy}");
 
             var calendarItem = _browser.GetMultiple(CalendarDates).First(x => x.Text() == desiredDate.Day.ToString());
 
