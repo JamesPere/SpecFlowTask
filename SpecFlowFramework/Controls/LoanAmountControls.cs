@@ -11,7 +11,6 @@ namespace SpecFlowFramework.Controls
 
         private readonly By LoanAmountRange = By.CssSelector(".loan-amount__header__range span");
         public By LoanSlider => By.CssSelector(".loan-amount__range-slider__input");
-
         private By LoanHeaderAmount = By.CssSelector(".loan-amount__header__amount span");
 
         private Browser _browser;

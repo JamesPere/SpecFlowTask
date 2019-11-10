@@ -64,7 +64,9 @@ namespace SpecFlowFramework.Steps
             {
                 var filePath = GenerateScreenshotPath();
                 _objectContainer.Resolve<Browser>().CreateScreenshot(filePath);
+                Console.WriteLine("****************************");
                 Console.Write($"INFO - Screenshot generated: {filePath}");
+                Console.WriteLine("****************************");
             }
 
             var dateTime = DateTime.Now;

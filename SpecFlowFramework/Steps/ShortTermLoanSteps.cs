@@ -17,8 +17,6 @@ namespace SpecFlowFramework.Steps
             _objectContainer = objectContainer;
         }
 
-        
-
         [Given(@"I select a loan amount of (.*)")]
         public void GivenISelectALoanAmountOf(string loanValue)
         {
@@ -91,8 +89,11 @@ namespace SpecFlowFramework.Steps
             _objectContainer.Resolve<ShortTermLoan>().VerifyExpectedDay(expectedDay);
         }
 
-
-
+        [Then(@"I expect the option type to show as (.*)")]
+        public void ThenIExpectTheOptionTypeToShowAs(string optionType)
+        {
+            _objectContainer.Resolve<ShortTermLoan>().VerifyLoanSummaryOptionType(optionType);
+        }
 
     }
 }

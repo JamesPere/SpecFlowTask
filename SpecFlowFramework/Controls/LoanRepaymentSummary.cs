@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using SpecFlowFramework.Support.Extensions;
 using SpecFlowFramework.Support.Models;
@@ -12,7 +13,9 @@ namespace SpecFlowFramework.Controls
         private By LoanSummaryValues => By.ClassName("loan-summary__column");
         private By LoanSummaryAmount => By.ClassName("loan-summary__column__amount");
 
-        private By LoanSummaryAmountLabel = By.ClassName("loan-summary__column__amount__label");
+        private By LoanSummaryAmountLabel => By.ClassName("loan-summary__column__amount__label");
+
+        private By LoanSummaryOptionType => By.ClassName("loan-schedule__tab__panel__header__button__tag");
 
         private Browser _browser;
 
@@ -23,42 +26,33 @@ namespace SpecFlowFramework.Controls
 
         public string GetLoanAmount()
         {
-            var amount = _browser.GetMultiple(LoanSummaryValues)
-                .First(lsv => lsv.Get(LoanSummaryAmountLabel).Text() == "Loan")
-                .Get(LoanSummaryAmount);
-
-            _browser.WaitFor(() => !String.IsNullOrEmpty(amount.Text()));
-
-            return amount.Text();
+            return GetLoanSummaryValue("Loan");
         }
 
         public string GetInterestAmount()
         {
-            var amount = _browser.GetMultiple(LoanSummaryValues)
-                .First(lsv => lsv.Get(LoanSummaryAmountLabel).Text() == "Interest")
-                .Get(LoanSummaryAmount);
-
-            _browser.WaitFor(() => !String.IsNullOrEmpty(amount.Text()));
-
-            return amount.Text();
+            return GetLoanSummaryValue("Interest");
         }
 
         public string GetTotalAmount()
         {
-            var amount = _browser.GetMultiple(LoanSummaryValues)
-                .First(lsv => lsv.Get(LoanSummaryAmountLabel).Text() == "Total")
-                .Get(LoanSummaryAmount);
-                
-
-            _browser.WaitFor(() => !String.IsNullOrEmpty(amount.Text()));
-
-            return amount.Text();
+            return GetLoanSummaryValue("Total");
         }
 
         public string GetPerMonthAmount()
         {
+            return GetLoanSummaryValue("Per month");
+        }
+
+        public void VerifyLoanSummaryOptionType(string optionType)
+        {
+            Assert.That(_browser.Get(LoanSummaryOptionType).Text(), Is.EqualTo(optionType));
+        }
+
+        private string GetLoanSummaryValue(string option)
+        {
             var amount = _browser.GetMultiple(LoanSummaryValues)
-                .First(lsv => lsv.Get(LoanSummaryAmountLabel).Text() == "Per month")
+                .First(lsv => lsv.Get(LoanSummaryAmountLabel).Text() == option)
                 .Get(LoanSummaryAmount);
 
             _browser.WaitFor(() => !String.IsNullOrEmpty(amount.Text()));

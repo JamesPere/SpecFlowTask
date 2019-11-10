@@ -58,6 +58,11 @@ namespace SpecFlowFramework.Pages
             //Assert.That(perMonthAmount, Is.EqualTo($"£{repayments:0.00}"));
         }
 
+        public void VerifyLoanSummaryOptionType(string optionType)
+        {
+            _loanRepaymentSummary.VerifyLoanSummaryOptionType(optionType);
+        }
+
         public void VerifyPaymentDate(string day)
         {
             _repaymentDayControls.VerifyPaymentDate(day);
