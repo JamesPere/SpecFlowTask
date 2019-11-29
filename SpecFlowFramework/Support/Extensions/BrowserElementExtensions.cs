@@ -21,15 +21,15 @@ namespace SpecFlowFramework.Support.Extensions
 
         }
 
-        public static BrowserElement Get(this BrowserElement element, By selector)
+        public static BrowserElement Get(this BrowserElement element, Locator selector)
         {
             try
             {
-                var childElement = element.Element.FindElement(selector);
+                var childElement = element.Element.FindElement(selector.ElementLocator);
                 return new BrowserElement()
                 {
                     Element = childElement,
-                    Selector = selector
+                    Selector = selector.ElementLocator
                 };
             }
             catch (Exception)

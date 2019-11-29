@@ -10,12 +10,12 @@ namespace SpecFlowFramework.Controls
     public class LoanRepaymentSummary
     {
 
-        private By LoanSummaryValues => By.ClassName("loan-summary__column");
-        private By LoanSummaryAmount => By.ClassName("loan-summary__column__amount");
+        private Locator LoanSummaryValues => WebLocator.Class("loan-summary__column");
+        private Locator LoanSummaryAmount => WebLocator.Class("loan-summary__column__amount");
 
-        private By LoanSummaryAmountLabel => By.ClassName("loan-summary__column__amount__label");
+        private Locator LoanSummaryAmountLabel => WebLocator.Class("loan-summary__column__amount__label");
 
-        private By LoanSummaryOptionType => By.ClassName("loan-schedule__tab__panel__header__button__tag");
+        private Locator LoanSummaryOptionType => WebLocator.Class("loan-schedule__tab__panel__header__button__tag");
 
         private Browser _browser;
 

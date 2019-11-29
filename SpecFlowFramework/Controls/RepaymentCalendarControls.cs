@@ -14,8 +14,8 @@ namespace SpecFlowFramework.Controls
     public class RepaymentCalendarControls
     {
 
-        public By Calendar => By.CssSelector(".loan-schedule__tab__panel__content.active");
-        public By CalendarDates => By.ClassName("date-selector__date");
+        public Locator Calendar => WebLocator.CssSelector(".loan-schedule__tab__panel__content.active");
+        public Locator CalendarDates => WebLocator.Class("date-selector__date");
 
         private Browser _browser;
 

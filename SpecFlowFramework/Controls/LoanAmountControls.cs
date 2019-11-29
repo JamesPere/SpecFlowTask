@@ -9,9 +9,9 @@ namespace SpecFlowFramework.Controls
     public class LoanAmountControls
     {
 
-        private readonly By LoanAmountRange = By.CssSelector(".loan-amount__header__range span");
-        public By LoanSlider => By.CssSelector(".loan-amount__range-slider__input");
-        private By LoanHeaderAmount = By.CssSelector(".loan-amount__header__amount span");
+        private readonly Locator LoanAmountRange = WebLocator.CssSelector(".loan-amount__header__range span");
+        public Locator LoanSlider => WebLocator.CssSelector(".loan-amount__range-slider__input");
+        private Locator LoanHeaderAmount = WebLocator.CssSelector(".loan-amount__header__amount span");
 
         private Browser _browser;
 

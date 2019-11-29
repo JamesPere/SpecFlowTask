@@ -92,6 +92,8 @@
     <Compile Include="Support\Models\BrowserElement.cs" />
     <Compile Include="Support\Extensions\BrowserElementExtensions.cs" />
     <Compile Include="Support\Extensions\BrowserExtensions.cs" />
+    <Compile Include="Support\Models\Locator.cs" />
+    <Compile Include="Support\Models\WebLocator.cs" />
     <Compile Include="Support\Utils\CalendarUtil.cs" />
     <Compile Include="Support\Utils\LoanEngineUtil.cs" />
   </ItemGroup>

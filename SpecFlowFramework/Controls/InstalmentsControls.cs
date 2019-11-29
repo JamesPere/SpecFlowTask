@@ -8,16 +8,16 @@ namespace SpecFlowFramework.Controls
 {
     public class InstalmentsControls
     {
-        public By RepaymentTypeTabs => By.Id("tab");
-        private By MonthlyLoanDurationSlider => By.Id("monthly");
+        public Locator RepaymentTypeTabs => WebLocator.Id("tab");
+        private Locator MonthlyLoanDurationSlider => WebLocator.Id("monthly");
 
-        private By LoanScheduleRange => By.CssSelector(".loan-schedule__tab__header__range span");
+        private Locator LoanScheduleRange => WebLocator.CssSelector(".loan-schedule__tab__header__range span");
 
-        private readonly By LoanInstalmentAmount = By.CssSelector(".loan-schedule__tab__header__amount span");
+        private readonly Locator LoanInstalmentAmount = WebLocator.CssSelector(".loan-schedule__tab__header__amount span");
 
-        private By RepaymentDayIcon => By.ClassName("loan-schedule__tab__panel__header__button__icon");
+        private Locator RepaymentDayIcon => WebLocator.Class("loan-schedule__tab__panel__header__button__icon");
 
-        private By LoanScheduleText => By.ClassName("loan-schedule__tab__panel__detail__tag__text");
+        private Locator LoanScheduleText => WebLocator.Class("loan-schedule__tab__panel__detail__tag__text");
 
         private readonly Browser _browser;
 

@@ -15,7 +15,7 @@ namespace SpecFlowFramework.Controls
     public class RepaymentDayControls
     {
 
-        private By LoanRepaymentText => By.ClassName("loan-schedule__tab__panel__detail__tag__text");
+        private Locator LoanRepaymentText => WebLocator.Class("loan-schedule__tab__panel__detail__tag__text");
 
         private Browser _browser;
 

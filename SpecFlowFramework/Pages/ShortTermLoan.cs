@@ -20,7 +20,7 @@ namespace SpecFlowFramework.Pages
     {
         private readonly Browser _browser;
 
-        private By LoanCalculator => By.ClassName("loan-calculator");
+        private Locator LoanCalculator => WebLocator.Class("loan-calculator");
         
         private readonly LoanAmountControls _loanAmountControls;
         private readonly InstalmentsControls _instalmentsControls;
